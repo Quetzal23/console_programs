@@ -52,20 +52,34 @@ class Cat:
 
         draw_board = self.draw_board(board)
 
-        rows = len(draw_board) + 2
-        columns = len(draw_board[0]) + 2
+        rows = len(draw_board) + 3
+        columns = len(draw_board[0]) + 3
 
         for height in range(rows):
             for width in range(columns):
                 if height == 0:
+                    if width % 2 == 0:
+                        print(' ', end='')
+                    else:
+                        if width == 3 or width == 7 or width == 11:
+                            print(width // 4, end='')
+                        else:
+                            print(' ', end='')
+                elif height == 1:
+                    # Dibuja la barra superior del cuadrado
                     if width == 0:
+                        print(' ', end='')
+                    elif width == 1:
                         print(self.top_left, end='')
                     elif width >= (columns - 1):
                         print(self.top_right, end='')
                     else:
                         print(self.horizontal, end='')
                 elif height == rows - 1:
+                    # Dibuja la barra inferior del cuadrado
                     if width == 0:
+                        print(' ', end='')
+                    elif width == 1:
                         print(self.bottom_left, end='')
                     elif width >= (columns - 1):
                         print(self.bottom_right, end='')
@@ -73,11 +87,17 @@ class Cat:
                         print(self.horizontal, end='')
                 else:
                     if width == 0:
+                        if height % 2 == 0:
+                            print(height // 2 - 1, end='')
+                        else:
+                            print(' ', end='')
+                    elif width == 1:
                         print(self.vertical, end='')
                     elif width >= (columns - 1):
                         print(self.vertical, end='')
                     else:
-                        print(draw_board[height - 1][width - 1], end='')
+                        # Dibuja el tablero en el interior del cuadro
+                        print(draw_board[height - 2][width - 2], end='')
             print()
 
 
