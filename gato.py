@@ -62,7 +62,7 @@ class Cat:
                         print(' ', end='')
                     else:
                         if width == 3 or width == 7 or width == 11:
-                            print(width // 4, end='')
+                            print(width // 4, end='')   # Imprime la coordenada
                         else:
                             print(' ', end='')
                 elif height == 1:
@@ -88,7 +88,7 @@ class Cat:
                 else:
                     if width == 0:
                         if height % 2 == 0:
-                            print(height // 2 - 1, end='')
+                            print(height // 2 - 1, end='')     # Imprime la coordenada
                         else:
                             print(' ', end='')
                     elif width == 1:
