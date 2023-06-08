@@ -1,7 +1,5 @@
 package com.quetzal.catgame;
 
-import java.util.Arrays;
-
 public class Draw {
     private final char TOP_LEFT;
     private final char TOP_RIGHT;
@@ -70,9 +68,13 @@ public class Draw {
             for(int width = 0; width <= columns; width++) {
                 if(height == 0) {
                     if(width % 2 == 0) {
-                        System.out.print("0");
-                    } else {
                         System.out.print(" ");
+                    } else {
+                        if(width == 3 || width == 7 || width == 11) {
+                            System.out.print(width / 4);
+                        } else {
+                            System.out.print(' ');
+                        }
                     }
                 } else if(height == 1) {
                     if(width == 0) {
