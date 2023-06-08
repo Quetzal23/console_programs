@@ -52,13 +52,7 @@ public class Draw {
         return result;
     }
 
-    public void drawSquare() {
-        char[][] board = {
-            {'o', 'o', 'o'},
-            {'o', 'o', 'o'},
-            {'o', 'o', 'o'}
-        };
-
+    public void drawSquare(char[][] board) {
         char[][] drawBoard = drawBoard(board);
 
         int rows = (drawBoard.length) + 2;
