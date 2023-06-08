@@ -78,7 +78,6 @@ class Cat:
                         print(self.vertical, end='')
                     else:
                         print(draw_board[height - 1][width - 1], end='')
-                        pass
             print()
 
 
