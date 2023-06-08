@@ -1,5 +1,7 @@
 package com.quetzal.catgame;
 
+import java.util.Arrays;
+
 public class Draw {
     private final char TOP_LEFT;
     private final char TOP_RIGHT;
@@ -25,27 +27,30 @@ public class Draw {
 
         char[][] result = new char[rows][columns];
 
-        for(int row=0; row<rows; row++) {
-            for(int column=0; column<columns; column++) {
-                // System.out.print(column);
+        for(int row = 0; row < rows; row++) {
+            int position = 0;
+
+            for(int column = 0; column < columns; column++) {
                 if(row % 2 == 0) {
-                    // System.out.print(column);
-                    if(column == 3 || column == 7) {
-                        System.out.print(VERTICAL);
+                    if(column % 2 == 0) {
+                        result[row][column] = ' ';
                     } else {
-                        System.out.print("0");
+                        if(column == 3 || column == 7) {
+                            result[row][column] = VERTICAL;
+                        } else {
+                            result[row][column] = board[row / 2][position];
+                            position++;
+                        }
                     }
                 } else {
                     if(column == 3 || column == 7) {
-                        System.out.print(CROSS);
+                        result[row][column] = CROSS;
                     } else {
-                        System.out.print(HORIZONTAL);
+                        result[row][column] = HORIZONTAL;
                     }
                 }
             }
-            System.out.println("");
         }
-
         return result;
     }
 
@@ -56,14 +61,13 @@ public class Draw {
             {'o', 'o', 'o'}
         };
 
-        Object drawBoard = drawBoard(board);
-        // System.out.print(drawBoard);
+        char[][] drawBoard = drawBoard(board);
 
-        int rows = 5 + 3;
-        int columns = 11 + 3;
+        int rows = (drawBoard.length) + 2;
+        int columns = (drawBoard[0].length) + 2;
 
-        for(int height=0; height<=rows; height++) {
-            for(int width=0; width<=columns; width++) {
+        for(int height = 0; height <= rows; height++) {
+            for(int width = 0; width <= columns; width++) {
                 if(height == 0) {
                     if(width % 2 == 0) {
                         System.out.print("0");
@@ -72,7 +76,7 @@ public class Draw {
                     }
                 } else if(height == 1) {
                     if(width == 0) {
-                        System.out.print(" ");
+                        System.out.print(' ');
                     } else if(width == 1) {
                         System.out.print(TOP_LEFT);
                     } else if(width == columns) {
@@ -82,7 +86,7 @@ public class Draw {
                     }
                 } else if(height >= rows) {
                     if(width == 0) {
-                        System.out.print(" ");
+                        System.out.print(' ');
                     } else if(width == 1) {
                         System.out.print(BOTTOM_LEFT);
                     } else if(width == columns) {
@@ -92,17 +96,17 @@ public class Draw {
                     }
                 } else {
                     if(width == 0) {
-                        System.out.print("0");
+                        if(height % 2 == 0) {
+                            System.out.print(height / 2 - 1);
+                        } else {
+                            System.out.print(' ');
+                        }
                     } else if(width == 1) {
                         System.out.print(VERTICAL);
                     } else if(width == columns) {
                         System.out.print(VERTICAL);
                     } else {
-                        if(width % 2 == 0) {
-                            System.out.print("0");
-                        } else {
-                            System.out.print(" ");
-                        }
+                        System.out.print(drawBoard[height - 2][width - 2]);
                     }
                 }
             }
