@@ -1,4 +1,4 @@
-class Cat:
+class CatGame:
     def __init__(self):
         self.setup_constants()
 
@@ -101,5 +101,6 @@ class Cat:
             print()
 
 
-game = Cat()
-game.draw_square()
+if __name__ == '__main__':
+    game = CatGame()
+    game.draw_square()
