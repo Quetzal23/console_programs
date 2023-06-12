@@ -6,6 +6,8 @@ public class CatGame {
         GameLogic gameLogic = new GameLogic();
         Draw draw = new Draw();
 
+        gameLogic.choosePlayerSymbol();
+
         char[][] board = gameLogic.getBoard();
         draw.drawSquare(board);
     }
