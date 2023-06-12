@@ -1,12 +1,12 @@
 class Draw:
     def __init__(self):
-        self.TOP_LEFT = '\u250C'  # ┌
-        self.TOP_RIGHT = '\u2510'  # ┐
-        self.BOTTOM_LEFT = '\u2514'  # └
-        self.BOTTOM_RIGHT = '\u2518'  # ┘
-        self.HORIZONTAL = '\u2500'  # ─
-        self.VERTICAL = '\u2502'  # │
-        self.CROSS = '\u253C'  # ┼
+        self.TOP_LEFT = '\u250C'        # ┌
+        self.TOP_RIGHT = '\u2510'       # ┐
+        self.BOTTOM_LEFT = '\u2514'     # └
+        self.BOTTOM_RIGHT = '\u2518'    # ┘
+        self.HORIZONTAL = '\u2500'      # ─
+        self.VERTICAL = '\u2502'        # │
+        self.CROSS = '\u253C'           # ┼
 
 
     def draw_board(self, board):

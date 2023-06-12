@@ -10,13 +10,13 @@ public class Draw {
     private final char CROSS;
 
     public Draw() {
-        TOP_LEFT = '\u250C';  // ┌
-        TOP_RIGHT = '\u2510';  // ┐
-        BOTTOM_LEFT = '\u2514';  // └
-        BOTTOM_RIGHT = '\u2518';  // ┘
-        HORIZONTAL = '\u2500';  // ─
-        VERTICAL = '\u2502';  // │
-        CROSS = '\u253C';  // ┼
+        TOP_LEFT = '\u250C';        // ┌
+        TOP_RIGHT = '\u2510';       // ┐
+        BOTTOM_LEFT = '\u2514';     // └
+        BOTTOM_RIGHT = '\u2518';    // ┘
+        HORIZONTAL = '\u2500';      // ─
+        VERTICAL = '\u2502';        // │
+        CROSS = '\u253C';           // ┼
     }
 
     private char[][] drawBoard(char[][] board) {
