@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 class GameLogic {
 private:
@@ -8,11 +9,41 @@ private:
         {' ', ' ', ' '}
     };
 
+    static char player1Symbol;
+    static char player2Symbol;
+
 public:
     char (*getBoard())[3] {
         return board;
     }
+
+    static void choosePlayerSymbol() {
+        std::string input;
+        char symbol;
+
+        std::cout << "Jugador 1.\nElige tu ficha:\n";
+        std::cout << "- X\n";
+        std::cout << "- O\n";
+
+        std::cin >> input;
+        symbol = std::toupper(input[0]);
+        if (symbol == 'X' || symbol == 'O') {
+            player1Symbol = symbol;
+            player2Symbol = (player1Symbol == 'O') ? 'X' : 'O';
+        } else {
+            player1Symbol = 'O';
+            player2Symbol = 'X';
+        }
+
+        std::cout << "Jugador 1: " << player1Symbol << "\n";
+        std::cout << "Jugador 2: " << player2Symbol << "\n";
+
+        std::cout << std::endl;
+    }
 };
+
+char GameLogic::player1Symbol = ' ';
+char GameLogic::player2Symbol = ' ';
 
 class Draw {
 private:
@@ -120,18 +151,22 @@ public:
     }
 };
 
-const char* Draw::TOP_LEFT = u8"\u250C";      // ┌
-const char* Draw::TOP_RIGHT = u8"\u2510";     // ┐
-const char* Draw::BOTTOM_LEFT = u8"\u2514";   // └
-const char* Draw::BOTTOM_RIGHT = u8"\u2518";  // ┘
-const char* Draw::HORIZONTAL = u8"\u2500";    // ─
-const char* Draw::VERTICAL = u8"\u2502";      // │
-const char* Draw::CROSS = u8"\u253C";         // ┼
+const char* Draw::TOP_LEFT = "o";//u8"\u250C";      // ┌
+const char* Draw::TOP_RIGHT = "o";//u8"\u2510";     // ┐
+const char* Draw::BOTTOM_LEFT = "o";//u8"\u2514";   // └
+const char* Draw::BOTTOM_RIGHT = "o";//u8"\u2518";  // ┘
+const char* Draw::HORIZONTAL = "-";//u8"\u2500";    // ─
+const char* Draw::VERTICAL = "|";//u8"\u2502";      // │
+const char* Draw::CROSS = "o";//u8"\u253C";         // ┼
 
 int main() {
     GameLogic gameLogic;
+    Draw draw;
+
+    gameLogic.choosePlayerSymbol();
+
     char (*board)[3] = gameLogic.getBoard();
-    Draw::drawSquare(board);
+    draw.drawSquare(board);
 
     return 0;
 }

@@ -27,4 +27,6 @@ class GameLogic:
             print("Error, ficha no valida.\nSe seleccionó al Jugador 1 la ficha por defecto: 'O' ")
             self.player_1_symbol = 'O'
             self.player_2_symbol = 'X'
-        print()
+
+        print(f"Jugador 1: {self.player_1_symbol}")
+        print(f"Jugador 2: {self.player_2_symbol}")
