@@ -148,67 +148,58 @@ class GameBoard {
     }
 
     bool checkWin(char symbol) {
-        // Diagonal principal
+        //  Verificar diagonal principal
+        bool isWin = true;
         for (int row = 0; row < 3; row++) {
-            bool isWin = true;
-
-            if (board[row][row] != symbol || board[row][row] == ' ') {
+            if (board[row][row] != symbol) {
                 isWin = false;
                 break;
-            }
-
-            if (isWin) {
-                return true; // Hay un ganador en la diagonal principal
             }
         }
+        if (isWin) {
+            return true;    // Hay un ganador en la diagonal principal
+        }
 
-        // Diagonal inversa
-        for (int row = 0; row < 3; row++) {
-            bool isWin = true;
-
-            if (board[row][2 - row] != symbol || board[row][2 - row] == ' ') {
+        // Verificar diagonal inversa
+        isWin = true;
+        for (int row = 0; row < 3; row) {
+            if (board[row][2 - row] != symbol) {
                 isWin = false;
                 break;
             }
-
-            if (isWin) {
-                return true; // Hay un ganador en la diagonal inversa
-            }
+        }
+        if (isWin) {
+            return true;    // Hay un ganador en la diagonal inversa
         }
 
         // Verificar filas
         for (int row = 0; row < 3; row++) {
-            bool isWin = true; // Variable para verificar si hay un ganador en la fila actual
-
+            isWin = true;
             for (int col = 0; col < 3; col++) {
-                if (board[row][col] != symbol || board[row][col] == ' ') {
-                    isWin = false; // Si hay un símbolo diferente o un espacio en blanco, no hay ganador en la fila
+                if (board[row][col] != symbol) {
+                    isWin = false;
                     break;
                 }
             }
-
             if (isWin) {
-                return true; // Hay un ganador en la fila actual
+                return true;    // Hay un ganador en la fila actual
             }
         }
 
-        // Verificar columnas
         for (int col = 0; col < 3; col++) {
-            bool isWin = true; // Variable para verificar si hay un ganador en la columna actual
-
+            isWin = true;
             for (int row = 0; row < 3; row++) {
-                if (board[row][col] != symbol || board[row][col] == ' ') {
-                    isWin = false; // Si hay un símbolo diferente o un espacio en blanco, no hay ganador en la columna
+                if (board[row][col] != symbol) {
+                    isWin = false;
                     break;
                 }
             }
-
             if (isWin) {
-                return true; // Hay un ganador en la columna actual
+                return true;    // Hay un ganador en la columna actual
             }
         }
 
-        return false; // No hay ganador
+        return false;  // No hay ganador
     }
 };
 
