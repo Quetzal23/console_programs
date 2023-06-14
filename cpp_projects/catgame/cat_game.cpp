@@ -1,92 +1,18 @@
 #include <iostream>
-#include <string>
+#include <array>
 
-class GameLogic {
-private:
-    char board[3][3] = {
-        {' ', ' ', ' '},
-        {' ', ' ', ' '},
-        {' ', ' ', ' '}
-    };
+class GameBoard {
+    private:
+    char board[3][3];
 
-    static char player1Symbol;
-    static char player2Symbol;
+    static constexpr char TOP_LEFT = 'o';
+    static constexpr char TOP_RIGHT = 'o';
+    static constexpr char BOTTOM_LEFT = 'o';
+    static constexpr char BOTTOM_RIGHT = 'o';
+    static constexpr char HORIZONTAL = '-';
+    static constexpr char VERTICAL = '|';
+    static constexpr char CROSS = '+';
 
-public:
-    char (*getBoard())[3] {
-        return board;
-    }
-
-    static void choosePlayerSymbol() {
-        std::string input;
-        char symbol;
-
-        std::cout << "Jugador 1.\nElige tu ficha:\n";
-        std::cout << "- X\n";
-        std::cout << "- O\n";
-
-        std::cin >> input;
-        symbol = std::toupper(input[0]);
-        if (symbol == 'X' || symbol == 'O') {
-            player1Symbol = symbol;
-            player2Symbol = (player1Symbol == 'O') ? 'X' : 'O';
-        } else {
-            player1Symbol = 'O';
-            player2Symbol = 'X';
-        }
-
-        std::cout << "Jugador 1: " << player1Symbol << "\n";
-        std::cout << "Jugador 2: " << player2Symbol << "\n";
-
-        std::cout << std::endl;
-    }
-};
-
-char GameLogic::player1Symbol = ' ';
-char GameLogic::player2Symbol = ' ';
-
-class Draw {
-private:
-    static const char* TOP_LEFT;
-    static const char* TOP_RIGHT;
-    static const char* BOTTOM_LEFT;
-    static const char* BOTTOM_RIGHT;
-    static const char* HORIZONTAL;
-    static const char* VERTICAL;
-    static const char* CROSS;
-
-    static char (*drawBoard(char board[3][3], int rows, int columns))[11] {
-        char (*result)[11] = new char[rows][11];
-
-        for (int row = 0; row < rows; row++) {
-            int position = 0;
-
-            for (int column = 0; column < columns; column++) {
-                if (row % 2 == 0) {
-                    if (column % 2 == 0) {
-                        result[row][column] = ' ';
-                    } else {
-                        if (column == 3 || column == 7) {
-                            result[row][column] = *VERTICAL;
-                        } else {
-                            result[row][column] = board[row / 2][position];
-                            position++;
-                        }
-                    }
-                } else {
-                    if (column == 3 || column == 7) {
-                        result[row][column] = *CROSS;
-                    } else {
-                        result[row][column] = *HORIZONTAL;
-                    }
-                }
-            }
-        }
-
-        return result;
-    }
-
-public:
     static void drawSquare(char board[3][3]) {
         int boardRows = 5;
         int boardColumns = 11;
@@ -149,24 +75,224 @@ public:
 
         delete[] draw_board;
     }
+
+    static char (*drawBoard(char board[3][3], int rows, int columns))[11] {
+        char (*result)[11] = new char[rows][11];
+
+        for (int row = 0; row < rows; row++) {
+            int position = 0;
+
+            for (int column = 0; column < columns; column++) {
+                if (row % 2 == 0) {
+                    if (column % 2 == 0) {
+                        result[row][column] = ' ';
+                    } else {
+                        if (column == 3 || column == 7) {
+                            result[row][column] = VERTICAL;
+                        } else {
+                            result[row][column] = board[row / 2][position];
+                            position++;
+                        }
+                    }
+                } else {
+                    if (column == 3 || column == 7) {
+                        result[row][column] = CROSS;
+                    } else {
+                        result[row][column] = HORIZONTAL;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public:
+    GameBoard() {
+        // Iniciar tablero vacio = ' '
+        resetBoard();
+    }
+
+    void resetBoard() {
+        // Reiniciar el tablero a vacio
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                board[row][col] = ' ';
+            }
+        }
+    }
+
+    void displayBoard() {
+        drawSquare(board);
+    }
+
+    bool makeMove(int row, int col, char symbol) {
+        // Lógica para validar el movimiento y actualizar el tablero
+        if (board[row][col] == ' ') {
+            board[row][col] = symbol;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    bool isBoardFull() {
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                if (board[row][col] == ' ') {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    bool checkWin(char symbol) {
+        // Diagonal principal
+        for (int row = 0; row < 3; row++) {
+            bool isWin = true;
+
+            if (board[row][row] != symbol || board[row][row] == ' ') {
+                isWin = false;
+                break;
+            }
+
+            if (isWin) {
+                return true; // Hay un ganador en la diagonal principal
+            }
+        }
+
+        // Diagonal inversa
+        for (int row = 0; row < 3; row++) {
+            bool isWin = true;
+
+            if (board[row][2 - row] != symbol || board[row][2 - row] == ' ') {
+                isWin = false;
+                break;
+            }
+
+            if (isWin) {
+                return true; // Hay un ganador en la diagonal inversa
+            }
+        }
+
+        // Verificar filas
+        for (int row = 0; row < 3; row++) {
+            bool isWin = true; // Variable para verificar si hay un ganador en la fila actual
+
+            for (int col = 0; col < 3; col++) {
+                if (board[row][col] != symbol || board[row][col] == ' ') {
+                    isWin = false; // Si hay un símbolo diferente o un espacio en blanco, no hay ganador en la fila
+                    break;
+                }
+            }
+
+            if (isWin) {
+                return true; // Hay un ganador en la fila actual
+            }
+        }
+
+        // Verificar columnas
+        for (int col = 0; col < 3; col++) {
+            bool isWin = true; // Variable para verificar si hay un ganador en la columna actual
+
+            for (int row = 0; row < 3; row++) {
+                if (board[row][col] != symbol || board[row][col] == ' ') {
+                    isWin = false; // Si hay un símbolo diferente o un espacio en blanco, no hay ganador en la columna
+                    break;
+                }
+            }
+
+            if (isWin) {
+                return true; // Hay un ganador en la columna actual
+            }
+        }
+
+        return false; // No hay ganador
+    }
 };
 
-const char* Draw::TOP_LEFT = "o";//u8"\u250C";      // ┌
-const char* Draw::TOP_RIGHT = "o";//u8"\u2510";     // ┐
-const char* Draw::BOTTOM_LEFT = "o";//u8"\u2514";   // └
-const char* Draw::BOTTOM_RIGHT = "o";//u8"\u2518";  // ┘
-const char* Draw::HORIZONTAL = "-";//u8"\u2500";    // ─
-const char* Draw::VERTICAL = "|";//u8"\u2502";      // │
-const char* Draw::CROSS = "o";//u8"\u253C";         // ┼
+class Player {
+    private:
+    std::string name;
+    char symbol;
+
+    public:
+    Player(const std::string playerName, char playerSymbol): name(playerName), symbol(playerSymbol) {}
+
+    const std::string& getName() const {
+        return name;
+    }
+
+    char getSymbol() const {
+        return symbol;
+    }
+};
+
+class GameManager {
+    private:
+    Player player1;
+    Player player2;
+    GameBoard gameBoard;
+    int currentTurn;
+
+    public:
+    GameManager(const std::string& player1Name, char player1Symbol, const std::string& player2Name, char player2Symbol)
+        : player1(player1Name, player1Symbol), player2(player2Name, player2Symbol), currentTurn(1) {}
+
+    void playGame() {
+        bool gameOver = false;
+
+        while(!gameOver) {
+            gameBoard.displayBoard();
+
+            Player* currentPlayer = (currentTurn % 2 == 1) ? &player1 : &player2;
+
+            int row, column;
+
+            std::cout << "Turno de: " << currentPlayer->getName() << "\nIngresa la Fila: ";
+            std::cin >> row;
+            std::cout << "\nIngresa la Columna: ";
+            std::cin >> column;
+
+            // Realizar el movimiento en el tablero
+            if (gameBoard.makeMove(row, column, currentPlayer->getSymbol())) {
+                if (gameBoard.checkWin(currentPlayer->getSymbol())) {
+                    std::cout << "¡Felicidades, " << currentPlayer->getName() << "! ¡Has ganado!" << std::endl;
+                    gameOver = true;
+                    break;
+                } else if (gameBoard.isBoardFull()) {
+                    std::cout << "El juego ha terminado en empate." << std::endl;
+                    gameOver = true;
+                    break;
+                } else {
+                    currentTurn++;
+                }
+            } else {
+                std::cout << "Movimiento inválido. Intenta nuevamente." << std::endl;
+            }
+        }
+
+        gameBoard.displayBoard();
+    }
+
+};
 
 int main() {
-    GameLogic gameLogic;
-    Draw draw;
+    std::string player1Name, player2Name;
+    char player1Symbol = 'X', player2Symbol = 'O';
 
-    gameLogic.choosePlayerSymbol();
+    // Obtener el nombre del primer jugador
+    std::cout << "Jugador 1, ingresa tu nombre: ";
+    std::cin >> player1Name;
 
-    char (*board)[3] = gameLogic.getBoard();
-    draw.drawSquare(board);
+    // Obtener el nombre del segundo jugador
+    std::cout << "Jugador 2, ingresa tu nombre: ";
+    std::cin >> player2Name;
+
+    // Crear una instancia de GameManager y jugar el juego
+    GameManager gameManager(player1Name, player1Symbol, player2Name, player2Symbol);
+    gameManager.playGame();
 
     return 0;
 }
