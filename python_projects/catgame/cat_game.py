@@ -186,16 +186,16 @@ class GameManager:
         self.player_1 = Player(player_1_name, player_1_symbol)
         self.player_2 = Player(player_2_name, player_2_symbol)
 
+        self.game_board = GameBoard()
+
         self.current_turn = 1
 
 
     def play_game(self):
         game_over = False
 
-        game_board = GameBoard()
-
         while not game_over:
-            game_board.display_board()
+            self.game_board.display_board()
 
             current_player = self.player_1 if self.current_turn % 2 == 1 else self.player_2
 
@@ -203,12 +203,12 @@ class GameManager:
             row = int(input("Ingresa la Fila: "))
             col = int(input("Ingresa la Columna: "))
 
-            if game_board.make_move(row, col, current_player.get_symbol()):
-                if game_board.check_win(current_player.get_symbol()):
+            if self.game_board.make_move(row, col, current_player.get_symbol()):
+                if self.game_board.check_win(current_player.get_symbol()):
                     print(f"¡Felicidades, {current_player.get_name()} ! ¡Has ganado!")
                     game_over = True
                     break
-                elif game_board.is_board_full():
+                elif self.game_board.is_board_full():
                     print("El juego ha terminado en empate.")
                     game_over = True
                     break
@@ -217,7 +217,7 @@ class GameManager:
             else:
                 print("Movimiento inválido. Intenta nuevamente.")
 
-        game_board.display_board()
+        self.game_board.display_board()
 
 
 if __name__ == '__main__':

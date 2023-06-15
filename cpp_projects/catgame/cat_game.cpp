@@ -162,7 +162,7 @@ class GameBoard {
 
         // Verificar diagonal inversa
         isWin = true;
-        for (int row = 0; row < 3; row) {
+        for (int row = 0; row < 3; row++) {
             if (board[row][2 - row] != symbol) {
                 isWin = false;
                 break;
@@ -243,7 +243,7 @@ class GameManager {
 
             std::cout << "Turno de: " << currentPlayer->getName() << "\nIngresa la Fila: ";
             std::cin >> row;
-            std::cout << "\nIngresa la Columna: ";
+            std::cout << "Ingresa la Columna: ";
             std::cin >> column;
 
             // Realizar el movimiento en el tablero
